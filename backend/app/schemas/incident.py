@@ -8,16 +8,24 @@ class IncidentCreate(BaseModel):
     description: str = Field(min_length=10)
     requester: str = Field(min_length=2, max_length=150)
     area: str = Field(min_length=2, max_length=100)
-
     category: str | None = None
-
     impact_users: int = Field(default=1, ge=1)
-
     urgency: str = Field(default="media")
 
 
 class IncidentUpdate(BaseModel):
     status: str = Field(min_length=3, max_length=50)
+
+
+class IncidentAIAnalysisRequest(BaseModel):
+    title: str = Field(min_length=5, max_length=200)
+    description: str = Field(min_length=10)
+
+
+class IncidentAIAnalysisResponse(BaseModel):
+    title: str
+    description: str
+    analysis: str
 
 
 class IncidentResponse(BaseModel):

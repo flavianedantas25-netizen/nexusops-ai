@@ -8,12 +8,15 @@ from backend.app.schemas.incident import (
     IncidentCreate,
     IncidentResponse,
     IncidentUpdate,
+    IncidentAIAnalysisRequest,
+    IncidentAIAnalysisResponse,
 )
 from backend.app.services.priority import calculate_priority
 from backend.app.services.classifier import (
     classify_incident,
     classify_priority,
 )
+from backend.app.services.ai import analyze_incident
 
 
 router = APIRouter(
@@ -37,7 +40,7 @@ def create_incident(
         incident_data.urgency,
     )
 
-    # Classificação automática da IA
+    # Classificação automática baseada nas regras atuais
     ai_category, ai_confidence = classify_incident(
         incident_data.title,
         incident_data.description,
@@ -69,6 +72,32 @@ def create_incident(
     db.refresh(incident)
 
     return incident
+
+
+@router.post(
+    "/analyze",
+    response_model=IncidentAIAnalysisResponse,
+)
+def analyze_incident_with_ai(
+    incident_data: IncidentAIAnalysisRequest,
+):
+    try:
+        analysis = analyze_incident(
+            incident_data.title,
+            incident_data.description,
+        )
+
+        return IncidentAIAnalysisResponse(
+            title=incident_data.title,
+            description=incident_data.description,
+            analysis=analysis,
+        )
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Não foi possível realizar a análise com IA: {exc}",
+        )
 
 
 @router.get(
