@@ -11,3 +11,11 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Cloudflare Workers
+node_modules/
+.wrangler/
+.venv-workers/
+
+# Pywrangler generated packages
+python_modules/

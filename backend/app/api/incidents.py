@@ -78,11 +78,11 @@ def create_incident(
     "/analyze",
     response_model=IncidentAIAnalysisResponse,
 )
-def analyze_incident_with_ai(
+async def analyze_incident_with_ai(
     incident_data: IncidentAIAnalysisRequest,
 ):
     try:
-        analysis = analyze_incident(
+        analysis = await analyze_incident(
             incident_data.title,
             incident_data.description,
         )
