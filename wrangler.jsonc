@@ -10,7 +10,14 @@
 	"compatibility_flags": [
 		"python_workers"
 	],
-	"observability": {
+	"d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nexusops-db",
+      "database_id": "a9498a99-353c-47a5-86e1-18f6c357c597"
+    }
+  ],
+  "observability": {
 		"enabled": true
 	}
 	/**
